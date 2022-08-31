@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "115607185769",
+    "firebase_url": "https://datacrud-c80fe-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "datacrud-c80fe",
+    "storage_bucket": "datacrud-c80fe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:115607185769:android:8c7254b7d0bd15a0f7b5f8",
+        "android_client_info": {
+          "package_name": "com.example.datacrdurealtime"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "115607185769-blj2469l9nei7aj04eo47vrgf56fcatm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUYIngyq8hOEKOD0h21XADDqZ-H3-O0gk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "115607185769-blj2469l9nei7aj04eo47vrgf56fcatm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:115607185769:android:48448919f911f8f7f7b5f8",
+        "android_client_info": {
+          "package_name": "com.example.datacrud"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "115607185769-blj2469l9nei7aj04eo47vrgf56fcatm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUYIngyq8hOEKOD0h21XADDqZ-H3-O0gk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "115607185769-blj2469l9nei7aj04eo47vrgf56fcatm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:115607185769:android:d5503de3a22e5eb8f7b5f8",
+        "android_client_info": {
+          "package_name": "com.example.datacrud2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "115607185769-blj2469l9nei7aj04eo47vrgf56fcatm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUYIngyq8hOEKOD0h21XADDqZ-H3-O0gk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "115607185769-blj2469l9nei7aj04eo47vrgf56fcatm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
