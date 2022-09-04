@@ -5,8 +5,6 @@ import androidx.lifecycle.AndroidViewModel
 
 class ViewModelsCrud(application: Application) : AndroidViewModel(application) {
 
-    val repositorio: Repositorio = Repositorio(application)
 
-    val lista = repositorio.getLista()
 
 }

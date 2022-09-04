@@ -8,14 +8,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.datacrdurealtime.databinding.ListaBinding
 import com.example.datacrdurealtime.dto.Persona
 
-class MyAdapter(diffCallback: DiffUtil.ItemCallback<Persona>) :
-    ListAdapter<Persona, MyAdapter.HolderCrud>(diffCallback) {
+class MyAdapter() :
+    ListAdapter<Persona, MyAdapter.HolderCrud>(DiffCallBack()) {
 
-    inner class HolderCrud(val bindingLista: ListaBinding) :
+    inner class HolderCrud(private val bindingLista: ListaBinding) :
         RecyclerView.ViewHolder(bindingLista.root) {
         fun binder(persona: Persona) {
             bindingLista.apply {
-                this.tvId.text = persona.nome
+                this.tvId.text = persona.id
+                this.tvDesc.text= persona.desc
             }
         }
     }
@@ -28,7 +29,15 @@ class MyAdapter(diffCallback: DiffUtil.ItemCallback<Persona>) :
     override fun onBindViewHolder(holder: HolderCrud, position: Int) {
         val binding = getItem(position)
         holder.binder(binding)
-
     }
 
 }
+
+class DiffCallBack() : DiffUtil.ItemCallback<Persona>() {
+    override fun areItemsTheSame(oldItem: Persona, newItem: Persona) = oldItem.id == newItem.id
+
+    override fun areContentsTheSame(oldItem: Persona, newItem: Persona) = oldItem.id == newItem.id
+}
+
+
+
