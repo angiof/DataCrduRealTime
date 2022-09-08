@@ -19,7 +19,7 @@ import com.google.firebase.database.ValueEventListener
 class MainActivity : AppCompatActivity() {
     private lateinit var empList: ArrayList<Persona>
     val db = FirebaseDatabase.getInstance().reference
-    val myReference = db.child("person")
+    val myReference = db.child("persona")
     private lateinit var viewModel: ViewModelsCrud
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,19 +36,20 @@ class MainActivity : AppCompatActivity() {
         val listainer = object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 empList.clear()
-                for (ds in p0.children) {
-                    val emptData = p0.getValue(Persona::class.java)
 
-                empList.add(emptData!!)
+                for (data in p0.children){
+                    val datiSnap=data.getValue(Persona::class.java)
+                    empList.add(datiSnap!!)
                 }
+                Log.d("mariotto",empList.toString())
+
                 val myAdapter:MyAdapter =MyAdapter()
 
-                myAdapter.submitList(empList)
-                Log.d("mariotto",empList.toString())
                 findViewById<RecyclerView>(R.id.recy_mian).apply {
-                     this.adapter = myAdapter
-                     this.setHasFixedSize(true)
-                 }
+                    this.setHasFixedSize(true)
+                    myAdapter.submitList(empList)
+                    this.adapter = myAdapter
+                }
 
                 Log.d("mario", empList.toString())
             }

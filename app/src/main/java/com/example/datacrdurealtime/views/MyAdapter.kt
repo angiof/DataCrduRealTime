@@ -13,10 +13,10 @@ class MyAdapter() :
 
     inner class HolderCrud(private val bindingLista: ListaBinding) :
         RecyclerView.ViewHolder(bindingLista.root) {
-        fun binder(persona: Persona) {
+        fun binder(persona: Persona?) {
             bindingLista.apply {
-                this.tvId.text = persona.id
-                this.tvDesc.text= persona.desc
+                this.tvId.text = persona?.id
+                this.tvDesc.text= persona?.desc
             }
         }
     }
@@ -28,7 +28,8 @@ class MyAdapter() :
 
     override fun onBindViewHolder(holder: HolderCrud, position: Int) {
         val binding = getItem(position)
-        holder.binder(binding)
+            holder.binder(binding)
+
     }
 
 }
