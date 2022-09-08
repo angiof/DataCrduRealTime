@@ -2,6 +2,7 @@ package com.example.datacrdurealtime.views
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +18,9 @@ class MyAdapter() :
             bindingLista.apply {
                 this.tvId.text = persona?.id
                 this.tvDesc.text= persona?.desc
+                this.card.setOnClickListener {
+                    Toast.makeText(this.card.context, persona?.id, Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
