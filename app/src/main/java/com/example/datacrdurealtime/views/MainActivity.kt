@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RestrictTo
@@ -30,7 +31,36 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         getLista()
-        setBtn()
+
+        findViewById<Button>(R.id.btn_main_adder).setOnClickListener {
+            val nomeID= findViewById<EditText>(R.id.tx_nome).text.toString()
+            val nome:String =nomeID
+            val oggpersona= Persona(nome,"mursia")
+
+            val listainerAdder = db.addValueEventListener(object :ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+
+
+                    myReference.child(nome).setValue(oggpersona).addOnSuccessListener {
+                    }.addOnFailureListener {
+
+                        Toast.makeText(this@MainActivity, "no", Toast.LENGTH_SHORT).show()
+                    }
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+
+            })
+            myReference.addValueEventListener(listainerAdder)
+
+
+
+
+            }
+
+
 
     }
 
