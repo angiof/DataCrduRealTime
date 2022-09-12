@@ -2,15 +2,10 @@ package com.example.datacrdurealtime.views
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.RestrictTo
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.datacrdurealtime.R
 import com.example.datacrdurealtime.dto.Persona
@@ -18,47 +13,19 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import java.util.*
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var empList: ArrayList<Persona>
+    private lateinit var empList: ArrayList<Persona>  //lista del modello
     val db = FirebaseDatabase.getInstance().reference
-    val myReference = db.child("persona")
-    private lateinit var viewModel: ViewModelsCrud
+    val myReference = db.child("persona") // reference patch
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         getLista()
+        setAdderIUSers()
 
-        findViewById<Button>(R.id.btn_main_adder).setOnClickListener {
-            val nomeID= findViewById<EditText>(R.id.tx_nome).text.toString()
-            val nome:String =nomeID
-            val oggpersona= Persona(nome,"mursia")
-
-            val listainerAdder = db.addValueEventListener(object :ValueEventListener{
-                override fun onDataChange(snapshot: DataSnapshot) {
-
-
-                    myReference.child(nome).setValue(oggpersona).addOnSuccessListener {
-                    }.addOnFailureListener {
-
-                        Toast.makeText(this@MainActivity, "no", Toast.LENGTH_SHORT).show()
-                    }
-
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                }
-
-            })
-            myReference.addValueEventListener(listainerAdder)
-
-
-
-
-            }
 
 
 
@@ -68,14 +35,14 @@ class MainActivity : AppCompatActivity() {
         empList = arrayListOf()
 
         val listainer = object : ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot) {
+            override fun onDataChange(snap: DataSnapshot) {
                 empList.clear()
 
-                for (data in p0.children) {
-                    val datiSnap = data.getValue(Persona::class.java)
-                    empList.add(datiSnap!!)
+                for (data in snap.children) {
+                    val datiSnap =
+                        data.getValue(Persona::class.java) //modella i risultati dell'iterazione dentro la classe modello
+                    empList.add(datiSnap!!)   //aggiugne i dati della classe modello all'interno della lista
                 }
-                Log.d("mariotto", empList.toString())
 
                 val myAdapter = MyAdapter()
 
@@ -95,28 +62,45 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun setBtn() {
-        val numeroRange : LongRange = 0..92382938967865
-        val myReference = db.child("persona").child("99")
+    fun setAdderIUSers(){
+        findViewById<Button>(R.id.btn_main_adder).setOnClickListener {
+            val nomeID = findViewById<EditText>(R.id.tx_nome).text.toString()
+            val desc = findViewById<EditText>(R.id.tx_desc).text.toString()
+            val nome: String = nomeID
+            val descT: String = desc
+            val oggpersona = Persona(nome, descT)
 
-        val listainerAdder = db.addValueEventListener(object :ValueEventListener{
-           override fun onDataChange(snapshot: DataSnapshot) {
+            val listainerAdder = db.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
 
-               val oggpersona= Persona("polo","mursia")
-               findViewById<Button>(R.id.btn_main_adder).setOnClickListener {
 
-                  myReference.setValue(oggpersona).addOnSuccessListener {
+                    myReference.child(nome).setValue(oggpersona).addOnSuccessListener {
+                    }.addOnFailureListener {
 
-                  }
-               }
+                        Toast.makeText(this@MainActivity, "no", Toast.LENGTH_SHORT).show()
+                    }
 
-           }
 
-           override fun onCancelled(error: DatabaseError) {
-           }
+                }
 
-       })
-        myReference.addValueEventListener(listainerAdder)
+                override fun onCancelled(error: DatabaseError) {
+                }
+
+            })
+            findViewById<Button>(R.id.bt_cancella).setOnClickListener {
+
+                myReference.child(nome).
+                removeValue().addOnCompleteListener {
+                    Toast.makeText(this@MainActivity, "rimosso", Toast.LENGTH_SHORT).show()
+                }
+
+
+            }
+
+            myReference.addValueEventListener(listainerAdder)
+
+
+        }
     }
 
 }
