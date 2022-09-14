@@ -3,6 +3,7 @@ package com.example.datacrdurealtime.views
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -21,15 +22,16 @@ import kotlin.collections.ArrayList
 class MainActivity : AppCompatActivity() {
     private lateinit var empList: ArrayList<Persona>  //lista del modello
 
-        val db = FirebaseDatabase.getInstance().reference
-        val myReference = db.child("persona") // reference patch
+    val db = FirebaseDatabase.getInstance().reference
+    val myReference = db.child("persona") // reference patch
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        passaSecodn()
         getLista()
-        setAdderIUSers()
+
+
 
 
     }
@@ -84,6 +86,13 @@ class MainActivity : AppCompatActivity() {
             })
 
             myReference.addValueEventListener(listainerAdder)
+        }
+    }
+
+    fun passaSecodn() {
+        findViewById<Button>(R.id.passa1).setOnClickListener {
+            startActivity(Intent(this,MainActivity2::class.java))
+
         }
     }
 }

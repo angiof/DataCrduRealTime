@@ -1,5 +1,6 @@
 package com.example.datacrdurealtime.views
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -12,10 +13,17 @@ class MainActivity2 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
-        
+
         delate()
+        goToHome()
 
+    }
 
+    private fun goToHome() {
+        findViewById<Button>(R.id.passa).setOnClickListener {
+            startActivity(Intent(this,MainActivity::class.java))
+
+        }
     }
 
     fun delate() {
@@ -34,4 +42,5 @@ class MainActivity2 : AppCompatActivity() {
             }
         }
     }
+
 }

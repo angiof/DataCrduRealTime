@@ -16,7 +16,7 @@
         android:theme="@style/Theme.DataCrduRealTime"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity2"
+            android:name=".views.MainActivity2"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
