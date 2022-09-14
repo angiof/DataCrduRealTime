@@ -1,5 +1,8 @@
 package com.example.datacrdurealtime.views
 
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -17,8 +20,10 @@ import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
     private lateinit var empList: ArrayList<Persona>  //lista del modello
-    val db = FirebaseDatabase.getInstance().reference
-    val myReference = db.child("persona") // reference patch
+
+        val db = FirebaseDatabase.getInstance().reference
+        val myReference = db.child("persona") // reference patch
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -27,31 +32,24 @@ class MainActivity : AppCompatActivity() {
         setAdderIUSers()
 
 
-
-
     }
 
     fun getLista() {
         empList = arrayListOf()
-
         val listainer = object : ValueEventListener {
             override fun onDataChange(snap: DataSnapshot) {
                 empList.clear()
-
                 for (data in snap.children) {
                     val datiSnap =
                         data.getValue(Persona::class.java) //modella i risultati dell'iterazione dentro la classe modello
                     empList.add(datiSnap!!)   //aggiugne i dati della classe modello all'interno della lista
                 }
-
                 val myAdapter = MyAdapter()
-
                 findViewById<RecyclerView>(R.id.recy_mian).apply {
                     this.setHasFixedSize(true)
                     myAdapter.submitList(empList)
                     this.adapter = myAdapter
                 }
-
             }
 
             override fun onCancelled(p0: DatabaseError) {
@@ -62,7 +60,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun setAdderIUSers(){
+    fun setAdderIUSers() {
         findViewById<Button>(R.id.btn_main_adder).setOnClickListener {
             val nomeID = findViewById<EditText>(R.id.tx_nome).text.toString()
             val desc = findViewById<EditText>(R.id.tx_desc).text.toString()
@@ -73,34 +71,19 @@ class MainActivity : AppCompatActivity() {
             val listainerAdder = db.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
 
-
                     myReference.child(nome).setValue(oggpersona).addOnSuccessListener {
                     }.addOnFailureListener {
 
                         Toast.makeText(this@MainActivity, "no", Toast.LENGTH_SHORT).show()
                     }
-
-
                 }
 
                 override fun onCancelled(error: DatabaseError) {
+                    Toast.makeText(this@MainActivity, error.message, Toast.LENGTH_SHORT).show()
                 }
-
             })
-            findViewById<Button>(R.id.bt_cancella).setOnClickListener {
-
-                myReference.child(nome).
-                removeValue().addOnCompleteListener {
-                    Toast.makeText(this@MainActivity, "rimosso", Toast.LENGTH_SHORT).show()
-                }
-
-
-            }
 
             myReference.addValueEventListener(listainerAdder)
-
-
         }
     }
-
 }
