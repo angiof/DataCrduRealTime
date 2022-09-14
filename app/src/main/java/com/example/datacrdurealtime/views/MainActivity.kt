@@ -38,7 +38,6 @@ class MainActivity : AppCompatActivity() {
                 for (data in snap.children) {
                     val datiSnap =
                         data.getValue(Persona::class.java)
-                    empList.clear()
                     empList.add(datiSnap!!)
                 }
                 val myAdapter = MyAdapter()
@@ -62,24 +61,17 @@ class MainActivity : AppCompatActivity() {
             val desc = findViewById<EditText>(R.id.tx_desc).text.toString()
             val nome: String = nomeID
             val descT: String = desc
-            val oggpersona = Persona(nome, descT)
+            if (nome.isNullOrEmpty()or descT.isNullOrEmpty()){
+                Toast.makeText(this, "non ahi inserito i dati ", Toast.LENGTH_SHORT).show()
+            }else{
+                val oggpersona = Persona(nome, descT)
+                myReference.child(nome).setValue(oggpersona).addOnSuccessListener {
 
-            val listainerAdder = db.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-
-                    myReference.child(nome).setValue(oggpersona).addOnSuccessListener {
-                    }.addOnFailureListener {
-
-                        Toast.makeText(this@MainActivity, "no", Toast.LENGTH_SHORT).show()
-                    }
+                }.addOnFailureListener {
+                    Toast.makeText(this@MainActivity, "no", Toast.LENGTH_SHORT).show()
                 }
+            }
 
-                override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(this@MainActivity, error.message, Toast.LENGTH_SHORT).show()
-                }
-            })
-
-            myReference.addValueEventListener(listainerAdder)
         }
     }
 }

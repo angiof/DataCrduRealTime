@@ -47,7 +47,7 @@ class MyAdapter() :
 
     fun cancelUser(user: String, desc: String) {
         val db = FirebaseDatabase.getInstance().reference
-        val myReference = db.child(COnstansss.Costant.PERSONA).child(user).child(desc)
+        val myReference = db.child("persona").child(user)
         myReference.removeValue()
 
     }
