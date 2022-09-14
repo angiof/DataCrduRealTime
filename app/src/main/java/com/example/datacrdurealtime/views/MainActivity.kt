@@ -1,12 +1,8 @@
 package com.example.datacrdurealtime.views
 
-import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -28,10 +24,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        passaSecodn()
         getLista()
-
-
+        setAdderIUSers()
 
 
     }
@@ -43,19 +37,19 @@ class MainActivity : AppCompatActivity() {
                 empList.clear()
                 for (data in snap.children) {
                     val datiSnap =
-                        data.getValue(Persona::class.java) //modella i risultati dell'iterazione dentro la classe modello
-                    empList.add(datiSnap!!)   //aggiugne i dati della classe modello all'interno della lista
+                        data.getValue(Persona::class.java)
+                    empList.clear()
+                    empList.add(datiSnap!!)
                 }
                 val myAdapter = MyAdapter()
                 findViewById<RecyclerView>(R.id.recy_mian).apply {
                     this.setHasFixedSize(true)
-                    myAdapter.submitList(empList)
                     this.adapter = myAdapter
+                    myAdapter.submitList(empList)
                 }
             }
 
             override fun onCancelled(p0: DatabaseError) {
-                Toast.makeText(this@MainActivity, p0.message, Toast.LENGTH_SHORT).show()
             }
         }
         myReference.addValueEventListener(listainer)
@@ -86,13 +80,6 @@ class MainActivity : AppCompatActivity() {
             })
 
             myReference.addValueEventListener(listainerAdder)
-        }
-    }
-
-    fun passaSecodn() {
-        findViewById<Button>(R.id.passa1).setOnClickListener {
-            startActivity(Intent(this,MainActivity2::class.java))
-
         }
     }
 }

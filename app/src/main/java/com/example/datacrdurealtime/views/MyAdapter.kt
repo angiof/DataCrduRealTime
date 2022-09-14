@@ -1,6 +1,5 @@
 package com.example.datacrdurealtime.views
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -9,14 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.datacrdurealtime.databinding.ListaBinding
 import com.example.datacrdurealtime.dto.Persona
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import java.util.*
 
 class MyAdapter() :
@@ -33,7 +25,7 @@ class MyAdapter() :
                 }
                 this.btCancella.setOnClickListener {
                     if (!persona?.id.isNullOrEmpty()) {
-                        cancelUser(persona?.id.toString(), this.card.context)
+                        cancelUser(tvId.text.toString(), this.tvDesc.text.toString())
                     } else {
                         Toast.makeText(it.context, "errroe ", Toast.LENGTH_SHORT).show()
                     }
@@ -53,26 +45,12 @@ class MyAdapter() :
 
     }
 
-    fun cancelUser(unser: String, context: Context)  {
+    fun cancelUser(user: String, desc: String) {
         val db = FirebaseDatabase.getInstance().reference
-        val myReference = db.child("persona")
-
-        val listainer = object :ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-
-
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-            }
-        }
-
-            //val listainer = myReference.child(unser).removeValue().addOnCompleteListener {
-        db.addListenerForSingleValueEvent(listainer)
+        val myReference = db.child(COnstansss.Costant.PERSONA).child(user).child(desc)
+        myReference.removeValue()
 
     }
-
-
 }
 
 
