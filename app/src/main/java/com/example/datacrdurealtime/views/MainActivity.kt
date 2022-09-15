@@ -1,11 +1,14 @@
 package com.example.datacrdurealtime.views
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.datacrdurealtime.R
 import com.example.datacrdurealtime.dto.Persona
@@ -17,17 +20,16 @@ import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
     private lateinit var empList: ArrayList<Persona>  //lista del modello
-
-    val db = FirebaseDatabase.getInstance().reference
-    val myReference = db.child("persona") // reference patch
+    companion object{
+        val db = FirebaseDatabase.getInstance().reference
+        val myReference = db.child("persona") // reference patch
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         getLista()
         setAdderIUSers()
-
-
     }
 
     fun getLista() {
@@ -47,12 +49,10 @@ class MainActivity : AppCompatActivity() {
                     myAdapter.submitList(empList)
                 }
             }
-
             override fun onCancelled(p0: DatabaseError) {
             }
         }
         myReference.addValueEventListener(listainer)
-
     }
 
     fun setAdderIUSers() {
@@ -66,7 +66,6 @@ class MainActivity : AppCompatActivity() {
             }else{
                 val oggpersona = Persona(nome, descT)
                 myReference.child(nome).setValue(oggpersona).addOnSuccessListener {
-
                 }.addOnFailureListener {
                     Toast.makeText(this@MainActivity, "no", Toast.LENGTH_SHORT).show()
                 }

@@ -1,14 +1,21 @@
 package com.example.datacrdurealtime.views
 
+import android.content.pm.ActivityInfo
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.datacrdurealtime.databinding.ListaBinding
 import com.example.datacrdurealtime.dto.Persona
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import java.util.*
 
 class MyAdapter() :
@@ -30,6 +37,9 @@ class MyAdapter() :
                         Toast.makeText(it.context, "errroe ", Toast.LENGTH_SHORT).show()
                     }
                 }
+                this.btnUpdate.setOnClickListener {
+                    updateUsers(tvId.text.toString(),"pippaaa")
+                }
             }
         }
     }
@@ -49,9 +59,20 @@ class MyAdapter() :
         val db = FirebaseDatabase.getInstance().reference
         val myReference = db.child("persona").child(user)
         myReference.removeValue()
-
     }
 }
+
+    fun updateUsers(userId:String,des:String) {
+        val db = FirebaseDatabase.getInstance().reference
+        val myReference = db.child("persona")
+
+        val persona= mapOf(
+            "id" to userId,
+            "desc" to des
+        )
+        myReference.child(userId).updateChildren(persona).addOnCompleteListener {
+        }
+    }
 
 
 class DiffCallBack() : DiffUtil.ItemCallback<Persona>() {
