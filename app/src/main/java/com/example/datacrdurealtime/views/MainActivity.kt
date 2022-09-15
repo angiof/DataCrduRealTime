@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
             val nome: String = nomeID
             val descT: String = desc
             if (nome.isNullOrEmpty()or descT.isNullOrEmpty()){
-                Toast.makeText(this, "non ahi inserito i dati ", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "non rompere il progetto ", Toast.LENGTH_SHORT).show()
             }else{
                 val oggpersona = Persona(nome, descT)
                 myReference.child(nome).setValue(oggpersona).addOnSuccessListener {
