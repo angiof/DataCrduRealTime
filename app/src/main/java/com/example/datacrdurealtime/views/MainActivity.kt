@@ -1,14 +1,10 @@
 package com.example.datacrdurealtime.views
 
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.datacrdurealtime.R
 import com.example.datacrdurealtime.dto.Persona
@@ -29,7 +25,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         getLista()
-        setAdderIUSers()
     }
 
     fun getLista() {
@@ -41,6 +36,7 @@ class MainActivity : AppCompatActivity() {
                     val datiSnap =
                         data.getValue(Persona::class.java)
                     empList.add(datiSnap!!)
+                    setAdderIUSers(snap)
                 }
                 val myAdapter = MyAdapter()
                 findViewById<RecyclerView>(R.id.recy_mian).apply {
@@ -55,13 +51,13 @@ class MainActivity : AppCompatActivity() {
         myReference.addValueEventListener(listainer)
     }
 
-    fun setAdderIUSers() {
+    fun setAdderIUSers(snap: DataSnapshot) {
         findViewById<Button>(R.id.btn_main_adder).setOnClickListener {
             val nomeID = findViewById<EditText>(R.id.tx_nome).text.toString()
             val desc = findViewById<EditText>(R.id.tx_desc).text.toString()
             val nome: String = nomeID
             val descT: String = desc
-            if (nome.isNullOrEmpty()or descT.isNullOrEmpty()){
+            if (nome.isEmpty()or descT.isEmpty() or snap.hasChild(nome)){
                 Toast.makeText(this, "non rompere il progetto ", Toast.LENGTH_SHORT).show()
             }else{
                 val oggpersona = Persona(nome, descT)
