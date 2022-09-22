@@ -1,9 +1,11 @@
 package com.example.datacrdurealtime.views
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContract
@@ -11,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.RecyclerView
 import com.example.datacrdurealtime.R
 import com.example.datacrdurealtime.dto.Persona
+import com.example.datacrdurealtime.dto.Users
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.gms.auth.api.Auth
@@ -29,16 +32,17 @@ class MainActivity : AppCompatActivity() {
     private lateinit var firebaseAuthStateListainer: FirebaseAuth.AuthStateListener
 
     companion
-
     object {
         val db = FirebaseDatabase.getInstance().reference
         val myReference = db.child("persona") // reference patch
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         integrateAU()
+        exit()
 
     }
 
@@ -86,24 +90,38 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     fun integrateAU() {
-        //states
-        firebaseAuthStateListainer = FirebaseAuth.AuthStateListener { auth ->
-            if (auth.currentUser != null) {
-                supportActionBar?.title= auth.currentUser?.displayName.toString()
-            }
-        }
-
-
-        val provider = arrayListOf(AuthUI.IdpConfig.EmailBuilder().build())
+        val provider = arrayListOf(AuthUI.IdpConfig.GoogleBuilder().build())
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             val response = IdpResponse.fromResultIntent(it.data)
             if (it.resultCode == RESULT_OK) {
                 val user = FirebaseAuth.getInstance().currentUser
-                if (user == null) {
-                    Toast.makeText(this, "ciaooo", Toast.LENGTH_SHORT).show()
+                if (user != null) {
+                    //Toast.makeText(this, "ciaooo", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "ecco", Toast.LENGTH_SHORT).show()
+                    findViewById<TextView>(R.id.tx_id_user).setText(user.email + user.displayName + user.phoneNumber + user.providerId)
+                    createUser(user.displayName.toString(),user.email.toString())
                 }
             }
-        }.launch(AuthUI.getInstance().createSignInIntentBuilder().build())
+        }.launch(
+            AuthUI.getInstance().createSignInIntentBuilder().setAvailableProviders(provider)
+                .build()
+        )
+    }
+
+    fun createUser(user: String, email: String) {
+        val db = FirebaseDatabase.getInstance().reference
+        val myReference = db.child("users").child(user) //
+        val users = Users(user, email)
+        myReference.setValue(users)
+    }
+
+    fun exit() {
+        findViewById<Button>(R.id.btn_exit).setOnClickListener {
+            AuthUI.getInstance().signOut(this).addOnSuccessListener {
+                Toast.makeText(this, "chiuso", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
