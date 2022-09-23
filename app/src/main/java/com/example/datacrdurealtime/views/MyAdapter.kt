@@ -16,7 +16,7 @@ import com.google.firebase.database.FirebaseDatabase
 
 class MyAdapter() :
     ListAdapter<Persona, MyAdapter.HolderCrud>(DiffCallBack()) {
-
+        //spero funzioni aiutami dio
     inner class HolderCrud(private val bindingLista: ListaBinding) :
         RecyclerView.ViewHolder(bindingLista.root) {
         fun binder(persona: Persona?) {
