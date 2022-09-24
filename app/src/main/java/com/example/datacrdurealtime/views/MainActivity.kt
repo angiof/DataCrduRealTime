@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
             val nome: String = nomeID
             val descT: String = desc
             val id_alpha: String = id
-            if (nome.isEmpty()or descT.isEmpty() or snap.hasChild(nome)){
+            if (nome.isEmpty()or descT.isEmpty() or snap.hasChild(nome) or snap.hasChild(id_alpha)){
                 Toast.makeText(this, "non rompere il progetto ", Toast.LENGTH_SHORT).show()
             }else{
                 val oggpersona = Persona( id_alpha,descT,nome)
