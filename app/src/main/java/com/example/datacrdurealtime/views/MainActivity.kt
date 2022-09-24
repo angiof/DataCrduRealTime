@@ -55,15 +55,20 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btn_main_adder).setOnClickListener {
             val nomeID = findViewById<EditText>(R.id.tx_nome).text.toString()
             val desc = findViewById<EditText>(R.id.tx_desc).text.toString()
+            val id = findViewById<EditText>(R.id.tx_id).text.toString()
             val nome: String = nomeID
             val descT: String = desc
+            val id_alpha: String = id
             if (nome.isEmpty()or descT.isEmpty() or snap.hasChild(nome)){
                 Toast.makeText(this, "non rompere il progetto ", Toast.LENGTH_SHORT).show()
             }else{
-                val oggpersona = Persona(nome, descT)
-                myReference.child(nome).setValue(oggpersona).addOnSuccessListener {
+                val oggpersona = Persona( id_alpha,descT,nome)
+                myReference.child(id_alpha).setValue(oggpersona).addOnSuccessListener {
                 }.addOnFailureListener {
                     Toast.makeText(this@MainActivity, "no", Toast.LENGTH_SHORT).show()
+                }.addOnFailureListener {
+
+            Toast.makeText(this@MainActivity, "no", Toast.LENGTH_SHORT).show()
                 }
             }
 

@@ -21,7 +21,8 @@ class MyAdapter() :
         RecyclerView.ViewHolder(bindingLista.root) {
         fun binder(persona: Persona?) {
             bindingLista.apply {
-                this.tvId.text = persona?.id
+
+                this.tvNome.text = persona?.nome
                 this.tvDesc.text = persona?.desc
                 this.card.setOnClickListener {
                     Toast.makeText(this.card.context, persona?.id, Toast.LENGTH_SHORT).show()
@@ -34,7 +35,7 @@ class MyAdapter() :
                     }
                 }
                 this.btnUpdate.setOnClickListener {
-                    updateUsers(tvId.text.toString(), it.context)
+                    updateUsers(persona?.id.toString(), it.context)
                 }
             }
         }
@@ -51,11 +52,11 @@ class MyAdapter() :
 
     }
 
-    fun cancelUser(user: String, ctx: Context) {
+    fun cancelUser(id: String, ctx: Context) {
         val db = FirebaseDatabase.getInstance().reference
         val myReference = db.child("persona")
-            .child(user)
-        myReference.removeValue().addOnFailureListener {
+            myReference.child(id).removeValue()
+            .addOnFailureListener {
             Toast.makeText(ctx, it.message, Toast.LENGTH_SHORT).show()
         }
     }
@@ -67,18 +68,18 @@ fun updateUsers(userId: String, ctx: Context) {
     builder.setView(viewDialog)
     val dialog= builder.create()
     viewDialog.findViewById<Button>(R.id.btn_update_dialog).setOnClickListener {
-        val id=viewDialog.findViewById<EditText>(R.id.tx_id_update).getText()
-        val desc=viewDialog.findViewById<EditText>(R.id.tx_desc_updt).text
-        if (desc.isNullOrEmpty() and id.isNullOrEmpty()){
+        val nome=viewDialog.findViewById<EditText>(R.id.tx_nome_update).text.toString()
+        val desc=viewDialog.findViewById<EditText>(R.id.tx_desc_updt).text.toString()
+        if (desc.isNullOrEmpty() and nome.isNullOrEmpty()){
             Toast.makeText(ctx, "daje metti qualcosa ", Toast.LENGTH_SHORT).show()
         }else{
-            val id2:String=id.toString()
-            val desc2:String=desc.toString()
             val mapPerson = mapOf(
-                "id" to id2,
-                "desc" to desc2
+                "id" to userId,
+                "desc" to desc,
+                "nome" to nome
             )
-            MainActivity.myReference.child(userId).updateChildren(mapPerson).addOnCompleteListener {
+            MainActivity.myReference.child(userId)
+                .updateChildren(mapPerson).addOnCompleteListener {
                 Toast.makeText(ctx, "ok aggiornato", Toast.LENGTH_SHORT).show()
                 dialog.dismiss()
             }
